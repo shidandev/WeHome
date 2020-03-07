@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "326249235802",
+    "firebase_url": "https://wehome-988e4.firebaseio.com",
+    "project_id": "wehome-988e4",
+    "storage_bucket": "wehome-988e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326249235802:android:d1ca64534266514fe85f63",
+        "android_client_info": {
+          "package_name": "com.example.wehome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326249235802-3oghbkhs5iijdovlgp8v7m66ohhqeigs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wehome",
+            "certificate_hash": "5864692fa5bef196f9c5c1951f220ab4821aab22"
+          }
+        },
+        {
+          "client_id": "326249235802-2oncpifpujdnjt7vgobjbgrke3ocftuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGxSxHyMBAdHVr8JFXZgsOJZO1O2TxalM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326249235802-2oncpifpujdnjt7vgobjbgrke3ocftuj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
