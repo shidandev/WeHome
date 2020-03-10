@@ -1,10 +1,21 @@
 package model;
 
-public class User {
+import java.io.Serializable;
+
+public class User  implements Serializable {
     String id;
     String username;
-
+    String fullname;
     String password;
+
+
+
+    public String getFullname() {
+        return fullname;
+    }
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
     public String getPassword() {
         return password;

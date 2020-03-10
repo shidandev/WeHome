@@ -42,6 +42,7 @@
             android:layout_marginRight="30dp"
             android:layout_below="@+id/username_input"
             android:textColorHint="@android:color/black"
+            android:inputType="textPassword"
             />
         <Button
             android:layout_width="wrap_content"

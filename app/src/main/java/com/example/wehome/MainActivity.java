@@ -3,6 +3,7 @@ package com.example.wehome;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button login_btn;
     EditText username,password;
+    boolean islogin = false;
+
 
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference users_node = myRef.child("users");
@@ -45,9 +48,25 @@ public class MainActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"click n try",Toast.LENGTH_SHORT).show();
 
-                checkLoginUser("lala","ahahha");
+                if(username.getText().toString().trim().length() > 0 && password.getText().toString().trim().length() > 0)
+                {
+                    checkLoginUser(username.getText().toString().trim(), password.getText().toString().trim());
+
+                }
+                else
+                {
+                    if(username.getText().toString().trim().length() <= 0)
+                    {
+                        Toast.makeText(getApplicationContext(),"Please insert username",Toast.LENGTH_SHORT).show();
+                    }
+                    if(password.getText().toString().trim().length() <= 0)
+                    {
+                        Toast.makeText(getApplicationContext(),"Please insert password",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
 
 
             }
@@ -70,37 +89,48 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkLoginUser(String username,String password){
-        Query query = users_node.orderByChild("username").equalTo("shidan95");
-        query.addListenerForSingleValueEvent(result);
+    private boolean checkLoginUser(String username, final String password){
+
+
+        Query query = users_node.orderByChild("username").equalTo(username);
+        query.addListenerForSingleValueEvent( new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                {
+                    users.clear();
+                    for(DataSnapshot node : dataSnapshot.getChildren())
+                    {
+                        User user = node.getValue(User.class);
+                        users.add(user);
+
+                    }
+
+                    Log.d("test",users.get(0).getPassword());
+                    if(users.get(0).getPassword().equals(password))
+                    {
+                        islogin = true;
+                        Intent dashboard = new Intent(getApplicationContext(),Dashboard.class).putExtra("current_user",users.get(0));
+
+                        startActivity(dashboard);
+
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        return islogin;
     }
 
 
-    ValueEventListener result = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if(dataSnapshot.exists())
-            {
-                users.clear();
-                Toast.makeText(getApplicationContext(),"ada",Toast.LENGTH_SHORT).show();
-                for(DataSnapshot node : dataSnapshot.getChildren())
-                {
-                    User user = node.getValue(User.class);
-                    users.add(user);
-                    Toast.makeText(getApplicationContext(),user.getUsername(),Toast.LENGTH_SHORT).show();
-                }
 
-                Toast.makeText(getApplicationContext(),((users.get(0).getPassword().equals("test12312348567/8"))?"match":"xmatch"),Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"xde",Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    };
 }
