@@ -31,6 +31,7 @@
             android:layout_marginRight="30dp"
             android:layout_below="@+id/logo_img"
             android:textColorHint="@android:color/black"
+            android:text="admin"
             />
         <EditText
             android:id="@+id/password_input"
@@ -43,6 +44,7 @@
             android:layout_below="@+id/username_input"
             android:textColorHint="@android:color/black"
             android:inputType="textPassword"
+            android:text="admin"
             />
         <Button
             android:layout_width="wrap_content"
@@ -52,6 +54,7 @@
             android:layout_below="@+id/password_input"
             android:layout_alignRight="@+id/password_input"
             android:layout_marginTop="20dp"
+
             />
         <TextView
             android:layout_marginTop="30dp"

@@ -1,6 +1,7 @@
-package model;
+package com.example.wehome.model;
 
 import java.io.Serializable;
+
 
 public class User  implements Serializable {
     String id;

@@ -1,11 +1,41 @@
-package model;
+package com.example.wehome.model;
 
-public class Device {
+import java.io.Serializable;
+
+public class Device implements Serializable {
     private String id;
     private String name;
     private boolean broke_status;
     private int on;
     private int value;
+    private String icon;
+    private int max;
+    private int min;
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public String getId() {
         return id;
@@ -47,12 +77,15 @@ public class Device {
         this.value = value;
     }
 
-    public Device(String id, String name, boolean broke_status, int on, int value) {
+    public Device(String id, String name, boolean broke_status, int on, int value,String icon,int max, int min) {
         this.id = id;
         this.name = name;
         this.broke_status = broke_status;
         this.on = on;
         this.value = value;
+        this.icon = icon;
+        this.max = max;
+        this.min = min;
     }
     public Device(){}
 }
