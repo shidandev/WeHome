@@ -2,6 +2,7 @@ package com.example.wehome.controller;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         ImageView device_icon;
         RangeSeekBarView range_seekbar;
         ToggleButton toggle;
+        TextView toggle_label;
     }
 
     public DeviceArrayAdapter(Context context, int resource, ArrayList<Device> objects) {
@@ -47,7 +49,7 @@ public class DeviceArrayAdapter extends ArrayAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final View result;
-        Device plant_temp = devices.get(position);
+        final Device cur_device = devices.get(position);
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
@@ -56,6 +58,7 @@ public class DeviceArrayAdapter extends ArrayAdapter {
             holder.device_icon = convertView.findViewById(R.id.device_icon);
             holder.toggle = convertView.findViewById(R.id.toggle);
             holder.range_seekbar = convertView.findViewById(R.id.range_seekbar);
+            holder.toggle_label = convertView.findViewById(R.id.toggle_label);
             result = convertView;
             convertView.setTag(holder);
 
@@ -67,23 +70,30 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         result.startAnimation(animation);
         lastPosition = position;
 
-//        holder.plant_id.setText(String.valueOf(plant_temp.getId()));
-//        holder.plant_name.setText(plant_temp.getName());
+        holder.device_name.setText(cur_device.getName());
+        holder.device_icon.setBackgroundResource((cur_device.getIcon()!="")?R.drawable.icon_temp:R.drawable.icon_light);
 
+
+        setupSeekbar(holder.range_seekbar,cur_device);
+        setupToggle(holder.toggle,holder.toggle_label,cur_device);
+
+        return convertView;
+
+    }
+
+    public void setupSeekbar(RangeSeekBarView rsb,final Device dev)
+    {
         holder.range_seekbar.setAnimated(true, 3000L);
-        holder.range_seekbar.setMaxValue(5);
-        holder.range_seekbar.setMinValue(0);
-        holder.range_seekbar.setValue(0);
-
-
-        holder.range_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        holder.range_seekbar.setMaxValue(dev.getMax());
+        holder.range_seekbar.setMinValue(dev.getMin());
+        holder.range_seekbar.setValue(dev.getValue());
+        rsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.d("data",devices.get(position).getId());
-                myRef.child(devices.get(position).getId()).child("value").setValue(progress/(100/5));
+                Log.d("data",dev.getId());
+                myRef.child(dev.getId()).child("value").setValue(progress/(100/dev.getMax()));
 
-                ((RangeSeekBarView) seekBar).setValue(progress/(100/5));
-//                holder.range_seekbar.setValue(progress/(100/5));
+                ((RangeSeekBarView) seekBar).setValue(progress/(100/dev.getMax()));
             }
 
             @Override
@@ -96,7 +106,26 @@ public class DeviceArrayAdapter extends ArrayAdapter {
 
             }
         });
-        return convertView;
+    }
+    public void setupToggle(ToggleButton tb,final TextView tl,final Device dev)
+    {
+        if ((dev.getOn() == 1)) {
+            tb.setToggleOn();
+            tl.setText(" ON");
+            tl.setGravity(Gravity.START);
+        } else {
+            tb.setToggleOff();
+            tl.setText("OFF ");
+            tl.setGravity(Gravity.END);
+        }
 
+        tb.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+                myRef.child(dev.getId()).child("on").setValue((on)?1:0);
+                tl.setText((on)?" ON":"OFF ");
+                tl.setGravity((on)?Gravity.START:Gravity.END);
+            }
+        });
     }
 }

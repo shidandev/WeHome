@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="@drawable/front_bg">
 
         <LinearLayout
@@ -21,8 +21,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
                 android:text="Welcome Home,"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -30,16 +31,17 @@
                 android:id="@+id/user_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:text="Username"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:text=" !"
+                android:layout_marginTop="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -51,29 +53,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_information"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:padding="1dp"
+            android:layout_marginTop="5dp"
             android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/component_div"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:padding="5dp"
                 android:weightSum="1">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="10dp"
-                    android:layout_weight=".60"
                     android:background="@drawable/icon_temp" />
 
                 <TextView
+                    android:id="@+id/temperature_reading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00.00"
@@ -87,27 +89,25 @@
                     android:textColor="@android:color/black"
                     android:textSize="15dp" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/component_div"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:padding="5dp"
                 android:weightSum="1">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="10dp"
-                    android:layout_weight=".60"
-                    android:background="@drawable/icon_temp" />
+                    android:background="@drawable/icon_humidity" />
 
                 <TextView
+                    android:id="@+id/humidity_reading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00.00"
@@ -117,10 +117,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Temperature"
+                    android:text="Humidity"
                     android:textColor="@android:color/black"
                     android:textSize="15dp" />
             </LinearLayout>
+
         </LinearLayout>
 
         <ListView
