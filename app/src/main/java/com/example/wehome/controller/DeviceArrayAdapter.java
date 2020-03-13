@@ -37,6 +37,7 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         RangeSeekBarView range_seekbar;
         ToggleButton toggle;
         TextView toggle_label;
+        TextView input_id;
     }
 
     public DeviceArrayAdapter(Context context, int resource, ArrayList<Device> objects) {
@@ -59,6 +60,8 @@ public class DeviceArrayAdapter extends ArrayAdapter {
             holder.toggle = convertView.findViewById(R.id.toggle);
             holder.range_seekbar = convertView.findViewById(R.id.range_seekbar);
             holder.toggle_label = convertView.findViewById(R.id.toggle_label);
+            holder.input_id = convertView.findViewById(R.id.input_id);
+
             result = convertView;
             convertView.setTag(holder);
 
@@ -71,8 +74,10 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         lastPosition = position;
 
         holder.device_name.setText(cur_device.getName());
-        holder.device_icon.setBackgroundResource((cur_device.getIcon()!="")?R.drawable.icon_temp:R.drawable.icon_light);
-
+//        holder.device_icon.setImageResource((cur_device.getIcon()!="")?R.drawable.icon_temp:R.drawable.icon_light);
+        holder.device_icon.setImageResource(mContext.getResources().getIdentifier(cur_device.getIcon(),"drawable",mContext.getPackageName()));
+        Log.d("d",cur_device.getIcon());
+        holder.input_id.setText(cur_device.getId());
 
         setupSeekbar(holder.range_seekbar,cur_device);
         setupToggle(holder.toggle,holder.toggle_label,cur_device);
@@ -128,4 +133,6 @@ public class DeviceArrayAdapter extends ArrayAdapter {
             }
         });
     }
+
+
 }

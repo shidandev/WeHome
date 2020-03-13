@@ -99,6 +99,25 @@
             app:minValue="0"
             app:stepValue="1" />
 
+        <TextView
+            android:id="@+id/id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/range_seekbar"
+            android:layout_toRightOf="@id/device_icon"
+            android:text="ID:"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/input_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/id_label"
+            android:text="0001"
+            android:textColor="@color/blue"
+            android:layout_alignTop="@+id/id_label"/>
+
+
 
     </RelativeLayout>
 

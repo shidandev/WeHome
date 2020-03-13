@@ -1,12 +1,17 @@
 package com.example.wehome;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +39,8 @@ public class Dashboard extends AppCompatActivity {
     ListView lv;
     TextView temperature_reading;
     TextView humidity_reading;
+    Button logout_btn;
+    int counter = 0;
 
     ArrayList<Device> devices = new ArrayList<>();
 
@@ -45,6 +52,7 @@ public class Dashboard extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference users_node = myRef.child("users");
     DatabaseReference devices_node = myRef.child("devices");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +62,9 @@ public class Dashboard extends AppCompatActivity {
 
         TextView user_fullname = (TextView) findViewById(R.id.user_fullname);
         temperature_reading = (TextView) findViewById(R.id.temperature_reading);
-        humidity_reading = (TextView)findViewById(R.id.humidity_reading);
+        humidity_reading = (TextView) findViewById(R.id.humidity_reading);
         lv = (ListView) findViewById(R.id.list_dynamic_item);
+        logout_btn = (Button) findViewById(R.id.logout_btn);
 
 
         try {
@@ -68,7 +77,36 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    int counter = 0;
+    public void logout(View v) {
+        try {
+            new AlertDialog.Builder(this)
+                    .setTitle("")
+                    .setMessage("Are you sure to Log out?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Intent intent = new Intent(Dashboard.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+
+        } catch (Exception e) {
+        }
+    }
+
+    public void add_device(View v) {
+        try {
+            Intent intent = new Intent(Dashboard.this,AddDevice.class);
+            intent.putExtra("current_user",current_user);
+            startActivity(intent);
+
+        } catch (Exception e) {
+            Log.d("d",e.getLocalizedMessage());
+        }
+    }
 
     public void getDevices() {
         final Query query = users_node.orderByChild("username").equalTo(current_user.getUsername());
@@ -85,35 +123,30 @@ public class Dashboard extends AppCompatActivity {
                             devices_id.add(node2.getValue().toString());
                             devices_node_path.add(devices_node.child(node2.getValue().toString()));
                         }
-                        for(DataSnapshot node3:general_device.getChildren())
-                        {
+                        for (DataSnapshot node3 : general_device.getChildren()) {
                             general_devices_id.add(node3.getValue().toString());
                             general_devices_node_path.add(devices_node.child(node3.getValue().toString()));
                         }
                     }
 
-                    if(!general_devices_node_path.isEmpty())
-                    {
-                        for(final DatabaseReference a: general_devices_node_path)
-                        {
+                    if (!general_devices_node_path.isEmpty()) {
+                        for (final DatabaseReference a : general_devices_node_path) {
 
                             a.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    try{
+                                    try {
                                         GeneralDevice generalDevice = dataSnapshot.getValue(GeneralDevice.class);
 //                                        private DecimalFormat df2 = new DecimalFormat("0.00");
-                                        Log.d("d",generalDevice.toString());
-                                        if(generalDevice.getName().equals("temperature"))
-                                        {
-                                            temperature_reading.setText(String.format("%.2f",generalDevice.getValue()));
+                                        Log.d("d", generalDevice.toString());
+                                        if (generalDevice.getName().equals("temperature")) {
+                                            temperature_reading.setText(String.format("%.2f", generalDevice.getValue()));
                                         }
-                                        if(generalDevice.getName().equals("humidity"))
-                                        {
-                                            humidity_reading.setText(String.format("%.2f",generalDevice.getValue()));
+                                        if (generalDevice.getName().equals("humidity")) {
+                                            humidity_reading.setText(String.format("%.2f", generalDevice.getValue()));
                                         }
-                                    }catch (Exception e){
-                                        Log.d("d",e.getLocalizedMessage());
+                                    } catch (Exception e) {
+                                        Log.d("d", e.getLocalizedMessage());
                                     }
 
                                 }
@@ -142,7 +175,7 @@ public class Dashboard extends AppCompatActivity {
                                             counter++;
                                         }
                                     } catch (Exception e) {
-                                        Log.d("d","uina");
+                                        Log.d("d", "uina");
                                     }
                                 }
 

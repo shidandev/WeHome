@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddDevice"
+    android:background="@drawable/front_bg"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/add_device_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Add Device"
+        android:textSize="30dp"
+        android:textColor="@android:color/black"
+        />
+    <LinearLayout
+        android:id="@+id/name_div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_below="@+id/add_device_label"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@android:color/black"
+            android:text="Name:"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:layout_weight="2"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/min_div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_below="@+id/name_div"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@android:color/black"
+            android:text="Minimum Value:"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:layout_weight="2"
+            android:inputType="number"
+
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/max_div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_below="@+id/min_div"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@android:color/black"
+            android:text="Maximum Value:"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:layout_weight="2"
+            android:inputType="number"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/icon_div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_below="@+id/max_div"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="@android:color/black"
+            android:text="Icon:"
+            android:layout_weight="1"
+            />
+        <Spinner
+            android:id="@+id/icon_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            />
+
+    </LinearLayout>
+</RelativeLayout>
