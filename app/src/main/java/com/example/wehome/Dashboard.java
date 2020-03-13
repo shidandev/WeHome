@@ -97,7 +97,7 @@ public class Dashboard extends AppCompatActivity {
         }
     }
 
-    public void add_device(View v) {
+    public void add_device_page(View v) {
         try {
             Intent intent = new Intent(Dashboard.this,AddDevice.class);
             intent.putExtra("current_user",current_user);
@@ -189,7 +189,7 @@ public class Dashboard extends AppCompatActivity {
 
                                     if (devices.size() > 0) {
 //                                        Log.d("data", String.valueOf(devices.size()));
-                                        DeviceArrayAdapter dal = new DeviceArrayAdapter(Dashboard.this, R.layout.comp_view, devices);
+                                        DeviceArrayAdapter dal = new DeviceArrayAdapter(Dashboard.this, R.layout.comp_view, devices,current_user);
                                         lv.setAdapter(dal);
                                     } else {
 

@@ -33,7 +33,7 @@ public class IconSpinnerAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return path.get(i);
     }
 
     @Override

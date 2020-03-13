@@ -1,6 +1,9 @@
 package com.example.wehome.controller;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,18 +13,32 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
+import com.example.wehome.Dashboard;
+import com.example.wehome.MainActivity;
 import com.example.wehome.R;
 import com.example.wehome.model.Device;
+import com.example.wehome.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.mohammedalaa.seekbar.RangeSeekBarView;
 import com.zcw.togglebutton.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class DeviceArrayAdapter extends ArrayAdapter {
     private ViewHolder holder;
@@ -30,6 +47,8 @@ public class DeviceArrayAdapter extends ArrayAdapter {
     private ArrayList<Device> devices;
     private int lastPosition = -1;
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("devices");
+    DatabaseReference cur_user;
+    User current_user;
 
     static class ViewHolder {
         TextView device_name;
@@ -40,11 +59,13 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         TextView input_id;
     }
 
-    public DeviceArrayAdapter(Context context, int resource, ArrayList<Device> objects) {
+    public DeviceArrayAdapter(Context context, int resource, ArrayList<Device> objects, User user) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
         devices = objects;
+        cur_user = FirebaseDatabase.getInstance().getReference().child("users").child(user.getId());
+        current_user = user;
     }
 
     @Override
@@ -74,46 +95,108 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         lastPosition = position;
 
         holder.device_name.setText(cur_device.getName());
-//        holder.device_icon.setImageResource((cur_device.getIcon()!="")?R.drawable.icon_temp:R.drawable.icon_light);
-        holder.device_icon.setImageResource(mContext.getResources().getIdentifier(cur_device.getIcon(),"drawable",mContext.getPackageName()));
-        Log.d("d",cur_device.getIcon());
+        holder.device_icon.setImageResource((cur_device.getIcon() != "") ? R.drawable.icon_temp : R.drawable.icon_light);
+        holder.device_icon.setImageResource(mContext.getResources().getIdentifier(cur_device.getIcon(), "drawable", mContext.getPackageName()));
+        Log.d("d", cur_device.getIcon());
         holder.input_id.setText(cur_device.getId());
+        setupSeekbar(holder.range_seekbar, cur_device);
+        setupToggle(holder.toggle, holder.toggle_label, cur_device);
+        ((LinearLayout) result).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                try {
+                    new AlertDialog.Builder(mContext)
+                            .setTitle("Remove Device")
+                            .setMessage("Are you sure to remove this device?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-        setupSeekbar(holder.range_seekbar,cur_device);
-        setupToggle(holder.toggle,holder.toggle_label,cur_device);
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    myRef.child(cur_device.getId()).removeValue();
+                                    cur_user.child("devices").orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                for (DataSnapshot e : dataSnapshot.getChildren()) {
+                                                    String temp = e.getValue(String.class);
+//                                                    Toast.makeText(mContext, cur_device.getId(), Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(mContext, e.getKey(), Toast.LENGTH_SHORT).show();
+
+                                                    if (temp.equals(cur_device.getId())) {
+                                                        cur_user.child("devices").child(e.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Intent intent = new Intent(mContext, Dashboard.class);
+                                                                intent.putExtra("current_user", current_user);
+                                                                mContext.startActivity(intent);
+                                                                ((Activity) mContext).finish();
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+                                            } else {
+                                                Toast.makeText(mContext, "xde data", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null).show();
+
+                } catch (Exception e) {
+                }
+                return false;
+            }
+        });
 
         return convertView;
 
     }
 
-    public void setupSeekbar(RangeSeekBarView rsb,final Device dev)
-    {
-        holder.range_seekbar.setAnimated(true, 3000L);
-        holder.range_seekbar.setMaxValue(dev.getMax());
-        holder.range_seekbar.setMinValue(dev.getMin());
-        holder.range_seekbar.setValue(dev.getValue());
-        rsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.d("data",dev.getId());
-                myRef.child(dev.getId()).child("value").setValue(progress/(100/dev.getMax()));
+    public void setupSeekbar(RangeSeekBarView rsb, final Device dev) {
+        try {
 
-                ((RangeSeekBarView) seekBar).setValue(progress/(100/dev.getMax()));
-            }
+            rsb.setAnimated(true, 3000L);
+            rsb.setMaxValue(((dev.getMax() == 0) ? 1 : dev.getMax()));
+            rsb.setMinValue(dev.getMin());
+            rsb.setValue(dev.getValue());
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            rsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    Log.d("data", dev.getId());
+                    myRef.child(dev.getId()).child("value").setValue(progress / (100 / ((dev.getMax() == 0) ? 1 : dev.getMax())));
 
-            }
+                    ((RangeSeekBarView) seekBar).setValue(progress / (100 / ((dev.getMax() == 0) ? 1 : dev.getMax())));
+                }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
 
-            }
-        });
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
+//                Toast.makeText(mContext,String.valueOf(dev.getMax()),Toast.LENGTH_SHORT).show();
+//                holder.range_seekbar.setVisibility(View.INVISIBLE);
+
+        } catch (Exception e) {
+//            holder.range_seekbar.setVisibility(View.INVISIBLE);
+        }
     }
-    public void setupToggle(ToggleButton tb,final TextView tl,final Device dev)
-    {
+
+    public void setupToggle(ToggleButton tb, final TextView tl, final Device dev) {
         if ((dev.getOn() == 1)) {
             tb.setToggleOn();
             tl.setText(" ON");
@@ -127,9 +210,9 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         tb.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
-                myRef.child(dev.getId()).child("on").setValue((on)?1:0);
-                tl.setText((on)?" ON":"OFF ");
-                tl.setGravity((on)?Gravity.START:Gravity.END);
+                myRef.child(dev.getId()).child("on").setValue((on) ? 1 : 0);
+                tl.setText((on) ? " ON" : "OFF ");
+                tl.setGravity((on) ? Gravity.START : Gravity.END);
             }
         });
     }
