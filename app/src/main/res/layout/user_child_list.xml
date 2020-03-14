@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/component_div"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/comp_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/component_image_div"/>
+    <TextView
+        android:id="@+id/id_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/comp_icon"
+        android:text="ID :"
+        android:textColor="@android:color/black"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:id="@+id/id_input"
+        android:layout_toRightOf="@+id/id_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test123456"
+        android:textColor="#00008b"/>
+    <TextView
+        android:layout_below="@+id/id_label"
+        android:id="@+id/name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/comp_icon"
+        android:text="Name :"
+        android:textColor="@android:color/black"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:layout_toRightOf="@+id/name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test1234"
+        android:layout_alignTop="@+id/name_label"
+        android:textColor="#00008b"/>
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_delete"/>
+</RelativeLayout>

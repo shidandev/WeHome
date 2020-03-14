@@ -27,7 +27,7 @@
                 android:background="@drawable/button_logout"
                 />
             <Button
-
+                android:onClick="user_list_page"
                 android:layout_toLeftOf="@id/logout_btn"
                 android:id="@+id/user_list_btn"
                 android:layout_width="40dp"
@@ -50,14 +50,15 @@
         <LinearLayout
             android:layout_below="@+id/navigation_information"
             android:id="@+id/user_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/component_div"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Welcome Home,"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
@@ -67,7 +68,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
@@ -76,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" !"
-                android:layout_marginTop="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -91,7 +90,6 @@
             android:layout_below="@+id/user_information"
             android:orientation="horizontal"
             android:padding="1dp"
-            android:layout_marginTop="5dp"
             android:weightSum="2">
 
             <LinearLayout

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/component_image_div">
+
+    <TextView
+        android:id="@+id/user_fullname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:paddingLeft="6dp"
+        android:text="header"
+        android:textSize="20dp"
+        />
+    <Button
+
+        android:id="@+id/edit_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/user_fullname"
+        android:layout_toLeftOf="@id/delete_btn"
+        android:background="@drawable/button_edit"
+        android:focusable="false"
+        android:layout_marginRight="10dp"
+
+        />
+    <Button
+
+        android:id="@+id/delete_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/user_fullname"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/button_delete"
+        android:focusable="false"
+        android:layout_marginRight="10dp"
+
+        />
+</RelativeLayout>

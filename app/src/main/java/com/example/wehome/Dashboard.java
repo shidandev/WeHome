@@ -31,6 +31,7 @@ import com.zcw.togglebutton.ToggleButton;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Dashboard extends AppCompatActivity {
@@ -76,7 +77,12 @@ public class Dashboard extends AppCompatActivity {
         getDevices();
 
     }
-
+    public void user_list_page(View v){
+        Intent intent = new Intent(Dashboard.this,UserList.class);
+        intent.putExtra("current_user",current_user);
+        startActivity(intent);
+        finish();
+    }
     public void logout(View v) {
         try {
             new AlertDialog.Builder(this)
@@ -188,6 +194,9 @@ public class Dashboard extends AppCompatActivity {
                                 public void setupList() {
 
                                     if (devices.size() > 0) {
+
+
+
 //                                        Log.d("data", String.valueOf(devices.size()));
                                         DeviceArrayAdapter dal = new DeviceArrayAdapter(Dashboard.this, R.layout.comp_view, devices,current_user);
                                         lv.setAdapter(dal);
