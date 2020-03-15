@@ -17,6 +17,18 @@
         />
     <Button
 
+        android:id="@+id/add_device_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/user_fullname"
+        android:layout_toLeftOf="@id/edit_btn"
+        android:background="@drawable/button_add_device"
+        android:focusable="false"
+        android:layout_marginRight="10dp"
+
+        />
+    <Button
+
         android:id="@+id/edit_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"

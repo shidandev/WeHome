@@ -72,12 +72,24 @@ public class UserList extends AppCompatActivity {
                             a.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    Log.d("user", dataSnapshot.toString());
-                                    if (dataSnapshot.exists()) {
 
-                                        User temp = dataSnapshot.getValue(User.class);
-                                        Toast.makeText(UserList.this, temp.getFullname(), Toast.LENGTH_SHORT).show();
+                                    if (dataSnapshot.exists()) {
+//                                        Log.d("user",dataSnapshot.toString());
+                                        User temp = new User();
+                                        temp.setFullname(dataSnapshot.child("fullname").getValue().toString());
+                                        temp.setId(dataSnapshot.child("id").getValue().toString());
+                                        temp.setUsername(dataSnapshot.child("username").getValue().toString());
+                                        temp.setPassword(dataSnapshot.child("password").getValue().toString());
+
+                                        HashMap<String, String> dev_map = new HashMap<>();
+                                        for (DataSnapshot dev : dataSnapshot.child("devices").getChildren()) {
+                                            dev_map.put(dev.getKey(), dev.getValue().toString());
+                                        }
+                                        temp.setDevices(dev_map);
+//                                        Toast.makeText(UserList.this, temp.getFullname(), Toast.LENGTH_SHORT).show();
                                         users.add(temp);
+
+
                                         if (counter == users_node_path.size() - 1) {
                                             setupList();
                                         } else {
@@ -96,21 +108,44 @@ public class UserList extends AppCompatActivity {
 
                                     if (users.size() > 0) {
 
-                                        HashMap<String, ArrayList<String>> root = new HashMap<>();
-                                        ArrayList<String> child1 = new ArrayList<>();
 
-                                        child1.add("test1");
-                                        child1.add("test2");
-                                        child1.add("test3");
-                                        child1.add("test4");
-
-                                        root.put("root1", child1);
-                                        root.put("root2",child1);
+                                        HashMap<String, ArrayList<Device>> root = new HashMap<>();
                                         ArrayList<String> header_list = new ArrayList<>();
-                                        header_list.add("root1");
-                                        header_list.add("root2");
-//                                        Log.d("data", String.valueOf(devices.size()));
-                                        UserArrayAdapter dal = new UserArrayAdapter(UserList.this, R.layout.user_header_list, R.layout.user_child_list, header_list, root);
+
+                                        DatabaseReference device_root = myRef.child("devices");
+                                        for (int i = 0; i < users.size(); i++) {
+                                            header_list.add(users.get(i).getFullname());
+                                            final ArrayList<Device> child1 = new ArrayList<>();
+
+                                            for (final String a : users.get(i).getDevices().keySet()) {
+                                                final Device temp = new Device();
+                                                 device_root.child(users.get(i).getDevices().get(a)).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        if (dataSnapshot.exists()) {
+
+
+                                                            temp.setName(dataSnapshot.child("name").getValue().toString());
+                                                            temp.setIcon(dataSnapshot.child("icon").getValue().toString());
+                                                            temp.setId(a);
+                                                            child1.add(temp);
+
+
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+
+                                            root.put(users.get(i).getFullname(), child1);
+                                        }
+
+                                        UserArrayAdapter dal = new UserArrayAdapter(UserList.this, R.layout.user_header_list, R.layout.user_child_list, users, root,current_user);
 
                                         lv.setAdapter(dal);
 

@@ -1,6 +1,8 @@
 package com.example.wehome.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class User  implements Serializable {
@@ -9,6 +11,15 @@ public class User  implements Serializable {
     String fullname;
     String password;
 
+    HashMap<String,String> devices;
+
+    public HashMap<String, String> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(HashMap<String, String> devices) {
+        this.devices = devices;
+    }
 
 
     public String getFullname() {

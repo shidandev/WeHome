@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 if(dataSnapshot.exists())
                 {
                     users.clear();
+                    Log.d("user",dataSnapshot.toString());
                     for(DataSnapshot node : dataSnapshot.getChildren())
                     {
                         User user = node.getValue(User.class);
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                throw databaseError.toException();
             }
         });
 
