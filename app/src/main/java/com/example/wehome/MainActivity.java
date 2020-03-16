@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.wehome.model.Device;
 import com.example.wehome.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -102,7 +104,39 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("user",dataSnapshot.toString());
                     for(DataSnapshot node : dataSnapshot.getChildren())
                     {
-                        User user = node.getValue(User.class);
+                        User user = new User();
+                        try {
+                            user = node.getValue(User.class);
+                        }catch(Exception e){
+                            user.setFullname(node.child("fullname").getValue().toString());
+                            user.setUsername(node.child("username").getValue().toString());
+                            user.setPassword(node.child("password").getValue().toString());
+                            user.setId(node.child("id").getValue().toString());
+
+                            HashMap<String,String> devices = new HashMap<>();
+                            for(DataSnapshot dev:(node.child("devices")).getChildren()){
+                                Log.d("try",dev.toString());
+                                devices.put(dev.getKey(),dev.getValue().toString());
+                            }
+                            user.setDevices(devices);
+//                            for(DataSnapshot d:((DataSnapshot)node.child("devices").getValue()).getChildren())
+//                            {
+//                                //Device temp = new Device();
+//                                devices.put(d.getKey(),d.getValue().toString());
+//                            }
+//                            user.setDevices(devices);
+
+//                            HashMap<String,String> general_devices = new HashMap<>();
+//                            for(DataSnapshot d:((DataSnapshot)node.child("general_devices").getValue()).getChildren())
+//                            {
+//                                //Device temp = new Device();
+//                                general_devices.put(d.getKey(),d.getValue().toString());
+//                            }
+
+
+
+
+                        }
                         users.add(user);
 
                     }

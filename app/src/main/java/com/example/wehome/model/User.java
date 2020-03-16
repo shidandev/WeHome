@@ -6,10 +6,20 @@ import java.util.HashMap;
 
 
 public class User  implements Serializable {
-    String id;
-    String username;
-    String fullname;
-    String password;
+    private String id;
+    private String username;
+    private String fullname;
+    private String password;
+    private String type;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     HashMap<String,String> devices;
 

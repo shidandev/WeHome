@@ -40,7 +40,7 @@ public class Dashboard extends AppCompatActivity {
     ListView lv;
     TextView temperature_reading;
     TextView humidity_reading;
-    Button logout_btn;
+    Button logout_btn,user_list_btn,add_device_btn;
     int counter = 0;
 
     ArrayList<Device> devices = new ArrayList<>();
@@ -67,12 +67,37 @@ public class Dashboard extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.list_dynamic_item);
         logout_btn = (Button) findViewById(R.id.logout_btn);
 
+        user_list_btn = (Button)findViewById(R.id.user_list_btn);
+        add_device_btn = (Button)findViewById(R.id.add_device_btn);
+
+        if(current_user.getType()!=null)
+        {
+            if(current_user.getType().equals("admin"))
+            {
+                user_list_btn.setVisibility(View.VISIBLE);
+                add_device_btn.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                user_list_btn.setVisibility(View.GONE);
+                add_device_btn.setVisibility(View.GONE);
+            }
+        }
+        else
+        {
+            user_list_btn.setVisibility(View.GONE);
+            add_device_btn.setVisibility(View.GONE);
+        }
+
 
         try {
+
             user_fullname.setText(current_user.getFullname());
 
+
+
         } catch (Exception e) {
-            e.getLocalizedMessage();
+            Log.d("try",e.getLocalizedMessage());
         }
         getDevices();
 
