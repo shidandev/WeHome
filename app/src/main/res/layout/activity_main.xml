@@ -6,24 +6,35 @@
     android:layout_height="match_parent"
     android:background="@drawable/back_bg"
     tools:context=".MainActivity">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="@drawable/front_bg">
+        android:background="@drawable/bg"
+        android:alpha="0.2">
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/component_div"
+        android:elevation="7dp">
 
         <ImageView
             android:id="@+id/logo_img"
+            android:layout_width="142dp"
+            android:layout_height="173dp"
             android:layout_centerHorizontal="true"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/logo"/>
+            android:background="@drawable/logo"
+            android:elevation="3dp" />
 
         <EditText
             android:id="@+id/username_input"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="45dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -52,9 +63,13 @@
             android:text="Login"
             android:id="@+id/btn_login"
             android:layout_below="@+id/password_input"
+            android:layout_alignLeft="@+id/password_input"
             android:layout_alignRight="@+id/password_input"
             android:layout_marginTop="20dp"
-
+            android:textColor="@android:color/white"
+            android:background="@drawable/component_dev_gen"
+            android:textSize="20dp"
+            android:textStyle="bold"
             />
 <!--        <TextView-->
 <!--            android:layout_marginTop="30dp"-->

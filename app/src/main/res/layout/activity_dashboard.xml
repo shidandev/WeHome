@@ -5,13 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard">
-
+    tools:context=".Dashboard"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="@drawable/front_bg">
+        android:background="@drawable/bg"
+        android:alpha="0.2">
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,6 +30,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:elevation="3dp"
                 android:background="@drawable/button_logout"
                 />
             <Button
@@ -34,6 +41,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:elevation="3dp"
                 android:background="@drawable/button_list_user"
                 />
             <Button
@@ -44,6 +52,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:elevation="3dp"
                 android:background="@drawable/button_add_device"
                 />
         </RelativeLayout>
@@ -53,7 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/component_div"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:elevation="3dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +72,9 @@
                 android:text="Welcome Home,"
                 android:layout_marginLeft="10dp"
                 android:textColor="@android:color/black"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/user_fullname"
@@ -70,6 +83,8 @@
                 android:text="Username"
                 android:layout_marginLeft="5dp"
                 android:textColor="@android:color/black"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:textSize="20dp" />
 
             <TextView
@@ -77,6 +92,8 @@
                 android:layout_height="wrap_content"
                 android:text=" !"
                 android:textColor="@android:color/black"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
                 android:textSize="20dp" />
 
 
@@ -97,11 +114,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/component_div"
+                android:background="@drawable/component_dev_gen"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp"
-                android:weightSum="1">
+                android:weightSum="1"
+                android:elevation="5dp">
 
                 <ImageView
                     android:padding="3dp"
@@ -109,32 +127,35 @@
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_temp"
-                    android:background="@drawable/component_image_div"/>
+                    android:tint="@android:color/white"
+                    android:elevation="10dp"/>
 
                 <TextView
                     android:id="@+id/temperature_reading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00.00"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="15dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Temperature"
-                    android:textColor="@android:color/black"
-                    android:textSize="15dp" />
+                    android:textColor="@android:color/white"
+                    android:textSize="15dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/component_div"
+                android:background="@drawable/component_dev_gen"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp"
+                android:elevation="10dp"
                 android:weightSum="1">
 
                 <ImageView
@@ -142,28 +163,32 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
-                    android:background="@drawable/component_image_div"
-                    android:src="@drawable/icon_humidity" />
+                    android:tint="@android:color/white"
+                    android:src="@drawable/icon_humidity"
+                    android:elevation="10dp"/>
 
                 <TextView
                     android:id="@+id/humidity_reading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00.00"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="15dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Humidity"
-                    android:textColor="@android:color/black"
-                    android:textSize="15dp" />
+                    android:textColor="@android:color/white"
+                    android:textSize="15dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
         </LinearLayout>
 
         <ListView
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
             android:id="@+id/list_dynamic_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

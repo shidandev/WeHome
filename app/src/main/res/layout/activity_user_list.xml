@@ -4,15 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_bg"
-    tools:context=".UserList"
-    android:padding="5dp">
-
+    tools:context=".UserList">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/front_bg"
-        android:padding="5dp">
+        android:background="@drawable/bg"
+        android:alpha="0.2">
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/component_div"
+        android:padding="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
 
         <TextView
@@ -25,7 +33,8 @@
             android:text="User List"
             android:textColor="@android:color/black"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/component_image_div"/>
 
         <Button
             android:id="@+id/add_user"
@@ -34,6 +43,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
+            android:elevation="6dp"
             android:background="@drawable/button_add_user"/>
 
         <ExpandableListView

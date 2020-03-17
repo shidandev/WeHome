@@ -3,18 +3,18 @@
     <item android:state_pressed="false">
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="#fff"
-                android:endColor="#fff"/>
-            <stroke android:width="1dp" android:color="#ffffff"/>
+                android:startColor="#ff8c00"
+                android:endColor="#ff8c00"/>
+            <stroke android:width="1dp" android:color="#ff8c00"/>
             <corners android:radius="10dp"/>
 
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <gradient android:startColor="#E9EBEE"
-                android:endColor="#E9EBEE"/>
-            <stroke android:color="#ffffff" android:width="1dp"/>
+            <gradient android:startColor="#ff8c00"
+                android:endColor="#ff8c00"/>
+            <stroke android:color="#ff8c00" android:width="1dp"/>
             <corners android:radius="10dp"/>
         </shape>
     </item>

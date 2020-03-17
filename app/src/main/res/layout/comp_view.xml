@@ -21,6 +21,7 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
+            android:elevation="5dp"
             android:background="@drawable/component_image_div"
             android:src="@drawable/icon_light" />
 
@@ -34,7 +35,7 @@
             toggle:tbBorderWidth="1dp"
             toggle:tbOffBorderColor="#ffffff"
             toggle:tbOffColor="#ffffff"
-            toggle:tbOnColor="#ffffff"
+            toggle:tbOnColor="#ff8c00"
             toggle:tbSpotColor="#962952" />
 
         <TextView
@@ -58,14 +59,16 @@
             android:layout_alignTop="@id/device_icon"
             android:layout_toRightOf="@+id/device_icon"
             android:layout_toLeftOf="@id/toggle"
-            android:text="Device Name" />
+            android:text="Device Name"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/device_name_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/device_name"
-            android:layout_alignLeft="@+id/device_name" />
+            android:layout_alignLeft="@+id/device_name"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/label_level"
@@ -76,7 +79,8 @@
             android:layout_alignRight="@+id/toggle"
             android:layout_marginTop="15dp"
             android:gravity="center"
-            android:text="Level" />
+            android:text="Level"
+            android:textColor="@android:color/black"/>
 
         <com.mohammedalaa.seekbar.RangeSeekBarView
             android:id="@+id/range_seekbar"
@@ -91,10 +95,10 @@
             app:barHeight="10dp"
             app:baseColor="#932952"
             app:circleRadius="10dp"
-            app:circleTextColor="#96005f"
+            app:circleTextColor="#ffffff"
             app:circleTextSize="8dp"
             app:currentValue="0"
-            app:fillColor="#F7ff80"
+            app:fillColor="#ff8c00"
             app:maxValue="5"
             app:minValue="0"
             app:stepValue="1" />
@@ -106,7 +110,7 @@
             android:layout_below="@id/range_seekbar"
             android:layout_toRightOf="@id/device_icon"
             android:text="ID:"
-            android:textColor="@color/black"/>
+            android:textColor="#962952"/>
         <TextView
             android:id="@+id/input_id"
             android:layout_width="wrap_content"
@@ -114,7 +118,8 @@
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/id_label"
             android:text="0001"
-            android:textColor="@color/blue"
+            android:textColor="#962952"
+            android:textStyle="bold"
             android:layout_alignTop="@+id/id_label"/>
 
 

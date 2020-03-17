@@ -2,43 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/component_image_div">
+    android:padding="5dp"
+    android:background="@drawable/component_dev_gen">
 
     <TextView
         android:id="@+id/user_fullname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:gravity="center"
         android:padding="10dp"
         android:paddingLeft="6dp"
         android:text="header"
         android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
         />
+
     <Button
 
         android:id="@+id/add_device_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/user_fullname"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/edit_btn"
         android:background="@drawable/button_add_device"
+        android:elevation="3dp"
         android:focusable="false"
-        android:layout_marginRight="10dp"
 
         />
+
     <Button
 
         android:id="@+id/edit_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignTop="@+id/user_fullname"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/delete_btn"
         android:background="@drawable/button_edit"
-        android:focusable="false"
-        android:layout_marginRight="10dp"
+        android:elevation="3dp"
+        android:focusable="false" />
 
-        />
     <Button
 
         android:id="@+id/delete_btn"
@@ -46,9 +54,9 @@
         android:layout_height="40dp"
         android:layout_alignTop="@+id/user_fullname"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/button_delete"
-        android:focusable="false"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-
-        />
+        android:background="@drawable/button_delete"
+        android:elevation="2dp"
+        android:focusable="false" />
 </RelativeLayout>

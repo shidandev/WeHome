@@ -3,6 +3,7 @@ package com.example.wehome;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ public class UserList extends AppCompatActivity {
     User current_user;
     int counter = 0;
     ExpandableListView lv;
+    Button add_user_btn;
 
     ArrayList<User> users = new ArrayList<>();
 
@@ -46,6 +48,16 @@ public class UserList extends AppCompatActivity {
         setContentView(R.layout.activity_user_list);
         current_user = (User) getIntent().getSerializableExtra("current_user");
         lv = (ExpandableListView) findViewById(R.id.lv_user_list);
+        add_user_btn = (Button) findViewById(R.id.add_user);
+        add_user_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserList.this,AddUser.class);
+                intent.putExtra("current_user",current_user);
+                intent.putExtra("function","add");
+                startActivity(intent);
+            }
+        });
         setup_user_list();
     }
 

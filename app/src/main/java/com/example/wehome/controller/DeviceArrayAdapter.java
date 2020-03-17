@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -172,9 +173,17 @@ public class DeviceArrayAdapter extends ArrayAdapter {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     Log.d("data", dev.getId());
+                    if(dev.getMax() == 1)
+                    {
+                        ((RangeSeekBarView) seekBar).setValue(progress / 4);
+                    }
+                    else
+                    {
+                        ((RangeSeekBarView) seekBar).setValue(progress / (100 / ((dev.getMax() == 0) ? 1 : dev.getMax())));
+
+                    }
                     myRef.child(dev.getId()).child("value").setValue(progress / (100 / ((dev.getMax() == 0) ? 1 : dev.getMax())));
 
-                    ((RangeSeekBarView) seekBar).setValue(progress / (100 / ((dev.getMax() == 0) ? 1 : dev.getMax())));
                 }
 
                 @Override
@@ -201,10 +210,12 @@ public class DeviceArrayAdapter extends ArrayAdapter {
             tb.setToggleOn();
             tl.setText(" ON");
             tl.setGravity(Gravity.START);
+            tl.setTextColor(Color.WHITE);
         } else {
             tb.setToggleOff();
             tl.setText("OFF ");
             tl.setGravity(Gravity.END);
+            tl.setTextColor(Color.DKGRAY);
         }
 
         tb.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
@@ -213,6 +224,7 @@ public class DeviceArrayAdapter extends ArrayAdapter {
                 myRef.child(dev.getId()).child("on").setValue((on) ? 1 : 0);
                 tl.setText((on) ? " ON" : "OFF ");
                 tl.setGravity((on) ? Gravity.START : Gravity.END);
+                tl.setTextColor((on) ?Color.WHITE:Color.DKGRAY);
             }
         });
     }
