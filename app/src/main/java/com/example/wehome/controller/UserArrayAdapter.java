@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.wehome.AddUser;
 import com.example.wehome.Dashboard;
 import com.example.wehome.MainActivity;
 import com.example.wehome.R;
@@ -104,6 +105,7 @@ public class UserArrayAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(hl, null);
             holder = new ViewHolder();
             holder.user_name = (TextView) convertView.findViewById(R.id.user_fullname);
+            holder.edit_btn = (Button)convertView.findViewById(R.id.edit_btn);
             holder.delete_btn = (Button) convertView.findViewById(R.id.delete_btn);
             holder.add_btn = (Button) convertView.findViewById(R.id.add_device_btn);
 
@@ -115,10 +117,32 @@ public class UserArrayAdapter extends BaseExpandableListAdapter {
         }
 
         holder.user_name.setText(users.get(groupPosition).getFullname());
+        holder.edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, AddUser.class);
+                intent.putExtra("edit_user_id",users.get(groupPosition));
+                intent.putExtra("function","update");
+                intent.putExtra("current_user",current_user);
+                ctx.startActivity(intent);
+                ((Activity)ctx).finish();
+            }
+        });
+
         holder.delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d("user", "sni oi jadi ");
+                new AlertDialog.Builder(ctx)
+                        .setTitle("")
+                        .setMessage("Are you sure to remove " + users.get(groupPosition).getFullname() +"?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
             }
         });
 
@@ -159,6 +183,7 @@ public class UserArrayAdapter extends BaseExpandableListAdapter {
         TextView user_name;
         Button delete_btn;
         Button add_btn;
+        Button edit_btn;
 
     }
 
