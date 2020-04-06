@@ -139,7 +139,40 @@ public class UserArrayAdapter extends BaseExpandableListAdapter {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                user_root.child(users.get(groupPosition).getId()).removeValue();
+                                myRoot.child("users").child(current_user.getId()).child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.exists())
+                                        {
 
+
+                                            for(DataSnapshot node:dataSnapshot.getChildren())
+                                            {
+                                                String temp_key = node.getKey();
+                                                String temp_data = node.getValue().toString();
+
+                                                Log.d("test",temp_key +"=>"+ temp_data);
+
+                                                if(users.get(groupPosition).getId().equals(temp_data))
+                                                {
+                                                    myRoot.child("users").child(current_user.getId()).child("users").child(temp_key).removeValue();
+
+                                                }
+
+                                                Intent intent = new Intent(ctx,UserList.class);
+                                                intent.putExtra("current_user",current_user);
+                                                ctx.startActivity(intent);
+                                                ((Activity)ctx).finish();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton(android.R.string.no, null).show();

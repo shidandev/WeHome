@@ -198,7 +198,10 @@ public class Dashboard extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     try {
                                         Device temp = dataSnapshot.getValue(Device.class);
-                                        devices.add(temp);
+                                        if(temp.getName() != null)
+                                        {
+                                            devices.add(temp);
+                                        }
                                         if (counter == devices_id.size() - 1) {
 //                                            Toast.makeText(Dashboard.this, "here", Toast.LENGTH_SHORT).show();
                                             setupList();

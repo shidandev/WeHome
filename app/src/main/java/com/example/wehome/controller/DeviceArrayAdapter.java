@@ -48,6 +48,7 @@ public class DeviceArrayAdapter extends ArrayAdapter {
     private ArrayList<Device> devices;
     private int lastPosition = -1;
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("devices");
+    DatabaseReference root = FirebaseDatabase.getInstance().getReference();
     DatabaseReference cur_user;
     User current_user;
 
@@ -102,60 +103,105 @@ public class DeviceArrayAdapter extends ArrayAdapter {
         holder.input_id.setText(cur_device.getId());
         setupSeekbar(holder.range_seekbar, cur_device);
         setupToggle(holder.toggle, holder.toggle_label, cur_device);
-        ((LinearLayout) result).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                try {
-                    new AlertDialog.Builder(mContext)
-                            .setTitle("Remove Device")
-                            .setMessage("Are you sure to remove this device?")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        try {
+            if (current_user.getType().equals("admin")) {
+                ((LinearLayout) result).setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        try {
+                            new AlertDialog.Builder(mContext)
+                                    .setTitle("Remove Device")
+                                    .setMessage("Are you sure to remove this device?")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    myRef.child(cur_device.getId()).removeValue();
-                                    cur_user.child("devices").orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()) {
-                                                for (DataSnapshot e : dataSnapshot.getChildren()) {
-                                                    String temp = e.getValue(String.class);
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            myRef.child(cur_device.getId()).removeValue();
+                                            cur_user.child("devices").orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if (dataSnapshot.exists()) {
+                                                        for (DataSnapshot e : dataSnapshot.getChildren()) {
+                                                            String temp = e.getValue(String.class);
 //                                                    Toast.makeText(mContext, cur_device.getId(), Toast.LENGTH_SHORT).show();
 //                                                    Toast.makeText(mContext, e.getKey(), Toast.LENGTH_SHORT).show();
 
-                                                    if (temp.equals(cur_device.getId())) {
-                                                        cur_user.child("devices").child(e.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Intent intent = new Intent(mContext, Dashboard.class);
-                                                                intent.putExtra("current_user", current_user);
-                                                                mContext.startActivity(intent);
-                                                                ((Activity) mContext).finish();
+                                                            if (temp.equals(cur_device.getId())) {
+                                                                cur_user.child("devices").child(e.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Intent intent = new Intent(mContext, Dashboard.class);
+                                                                        intent.putExtra("current_user", current_user);
+                                                                        mContext.startActivity(intent);
+                                                                        ((Activity) mContext).finish();
+                                                                    }
+                                                                });
+
+                                                                Log.d("test",e.toString());
+
+                                                                root.child("users").child(current_user.getId()).child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                        if(dataSnapshot.exists())
+                                                                        {
+                                                                            for(final DataSnapshot a : dataSnapshot.getChildren())
+                                                                            {
+                                                                                root.child("users").child(a.getValue().toString()).child("devices").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                                    @Override
+                                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                                        if(dataSnapshot.exists())
+                                                                                        {
+                                                                                            for(DataSnapshot b:dataSnapshot.getChildren())
+                                                                                            {
+                                                                                                String temp_val = b.getValue().toString();
+                                                                                                if(cur_device.getId().equals(temp_val))
+                                                                                                {
+                                                                                                    root.child("users").child(a.getValue().toString()).child("devices").child(b.getKey()).removeValue();
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+
+                                                                                    @Override
+                                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                    }
+                                                                });
+
                                                             }
-                                                        });
+
+                                                        }
+                                                    } else {
+                                                        Toast.makeText(mContext, "xde data", Toast.LENGTH_SHORT).show();
                                                     }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                                 }
-                                            } else {
-                                                Toast.makeText(mContext, "xde data", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            });
 
                                         }
-                                    });
+                                    })
+                                    .setNegativeButton(android.R.string.no, null).show();
 
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null).show();
-
-                } catch (Exception e) {
-                }
-                return false;
+                        } catch (Exception e) {
+                        }
+                        return false;
+                    }
+                });
             }
-        });
+        }catch (Exception e){}
 
         return convertView;
 
