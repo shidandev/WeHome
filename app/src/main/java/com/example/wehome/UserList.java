@@ -181,4 +181,13 @@ public class UserList extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        //Execute your code here
+        Intent dashboard = new Intent(getApplicationContext(),Dashboard.class).putExtra("current_user",current_user);
+
+        startActivity(dashboard);
+        finish();
+
+    }
 }
